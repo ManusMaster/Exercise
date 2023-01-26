@@ -8,13 +8,13 @@ namespace Rectangles
         public static bool AreIntersected(Rectangle r1, Rectangle r2)
         {
             // так можно обратиться к координатам левого верхнего угла первого прямоугольника: r1.Left, r1.Top
-            var positionX1 = r1.Left + r1.Width;
-            var positionX2 = r2.Left + r2.Width;
-            var positionY1 = r1.Top + r1.Height;
-            var positionY2 = r2.Top + r2.Height;
-            var heightLength = (positionY1 <= positionY2) && (positionY2 >= r1.Top);
-            var widthLength = (positionX1 < r2.Left) || (positionX2 >= r1.Left);
-            return (heightLength || widthLength);
+            var x1 = r1.Left + r1.Width;
+            var x2 = r2.Left + r2.Width;
+            var y1 = r1.Top + r1.Height;
+            var y2 = r2.Top + r2.Height;
+            var heightLength = ((y1 >= r2.Top) && (r1.Top <= r2.Top)) || ((y2 >= r1.Top) && (r2.Top <= r1.Top));
+            var widthLength = ((x1 >= r2.Left) && (r1.Left <= r2.Left)) || ((x2 >= r1.Left) && (r2.Left <= r1.Left));
+            return (heightLength && widthLength);
         }
 
         // Площадь пересечения прямоугольников
@@ -28,7 +28,7 @@ namespace Rectangles
             var maxTop = Math.Max(r1.Top, r2.Top);
             int width = SideOfRectangle(positionX1, positionX2, maxLeft);
             int height = SideOfRectangle(positionY1, positionY2, maxTop);
-            if (AreIntersected(r1, r2)) return width * height; 
+            if (AreIntersected(r1, r2)) return width * height;
             else return 0;
         }
 
